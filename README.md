@@ -1,0 +1,1 @@
+# crossplane-function-inventory-sdk-example
