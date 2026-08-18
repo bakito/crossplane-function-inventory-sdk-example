@@ -1,0 +1,9 @@
+metadata: {}
+spec:
+  compositeTypeRef:
+    apiVersion: ""
+    kind: ""
+  pipeline:
+  - functionRef:
+      name: bakito-crossplane-function-inventory-sdk-examplexbucket
+    step: xbucket

@@ -1,0 +1,16 @@
+apiVersion: dev.crossplane.io/v1alpha1
+kind: Project
+metadata:
+  name: crossplane-function-inventory-sdk-example
+spec:
+  schemas:
+    languages:
+      - go
+  dependencies:
+  - type: xpkg
+    xpkg:
+      apiVersion: pkg.crossplane.io/v1
+      kind: Provider
+      package: xpkg.upbound.io/crossplane-contrib/provider-nop
+      version: '>=v0.5.0'
+  repository: ghcr.io/bakito/crossplane-function-inventory-sdk-example

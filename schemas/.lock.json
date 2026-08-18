@@ -1,0 +1,6 @@
+{
+  "packages": {
+    "fs://apis": "2b80b63852e80f67e9b8c257b1c4ab74d17486cca7c2de5887a29d725d02ed8a",
+    "xpkg://xpkg.upbound.io/crossplane-contrib/provider-nop:v0.5.0": "sha256:1da4c9fd07cb332e1ea11f528fe8f8a922584a2ce7845ad35a952e55f9fed295"
+  }
+}

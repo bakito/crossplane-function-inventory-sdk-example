@@ -1,0 +1,36 @@
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: xbuckets.example.crossplane.io
+spec:
+  group: example.crossplane.io
+  names:
+    categories:
+    - crossplane
+    kind: XBuckets
+    plural: xbuckets
+  scope: Namespaced
+  versions:
+  - name: v1
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        description: XBuckets is the Schema for the XBuckets API.
+        properties:
+          spec:
+            properties:
+              names:
+                items:
+                  type: string
+                type: array
+              region:
+                type: string
+            required:
+            - region
+            type: object
+          status:
+            type: object
+        required:
+        - spec
+        type: object
+    served: true

@@ -1,0 +1,7 @@
+[tools]
+"go" = "1.26.6"
+"go:github.com/crossplane/cli/v2/cmd/crossplane" = "2.5.0-rc.0.0.20260814234830-5bace94891a5"
+"task" = "3.52.0"
+"ko" = "0.19.1"
+"golangci-lint" = "2.12.2"
+

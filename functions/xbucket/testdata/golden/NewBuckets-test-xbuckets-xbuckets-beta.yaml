@@ -1,0 +1,10 @@
+apiVersion: nop.crossplane.io/v1alpha1
+kind: NopResource
+metadata:
+  annotations:
+    crossplane.io/external-name: beta
+spec:
+  forProvider:
+    fields:
+      name: beta
+      region: eu-central-1

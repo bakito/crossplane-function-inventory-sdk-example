@@ -1,0 +1,10 @@
+apiVersion: example.crossplane.io/v1
+kind: XBuckets
+metadata:
+  name: example-xbuckets
+  namespace: default
+spec:
+  region: eu-central-1
+  names:
+    - alpha
+    - beta

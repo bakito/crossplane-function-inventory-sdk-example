@@ -1,0 +1,128 @@
+version: '3'
+
+vars:
+  REPOSITORY: ghcr.io/bakito/crossplane-function-inventory-sdk-example
+  FUNCTIONS:
+    sh: find functions -mindepth 1 -maxdepth 1 -type d | sort
+  APIS:
+    sh: find apis -mindepth 1 -maxdepth 1 -type d | sort
+
+tasks:
+  default:
+    desc: List all available tasks
+    silent: true
+    cmds:
+      - task --list-all
+
+  setup:
+    desc: Configure the crossplane CLI feature flags required by this project
+    cmds:
+      - crossplane config set features.generateGoModelAccessors true
+      - crossplane config set features.generateGoRuntimeObjects true
+
+  generate:
+    desc: Regenerate Go code, schemas, and XRD definitions for every function/API
+    cmds:
+      - for: { var: FUNCTIONS }
+        task: go-generate-function
+        vars:
+          FUNC_DIR: '{{.ITEM}}'
+      - rm -rf ./schemas/
+      - rm -f ./apis/*/definition.yaml
+      - for: { var: APIS }
+        cmd: crossplane xrd generate --from simpleschema {{.ITEM}}/schema.yaml
+      - crossplane project build
+
+  go-generate-function:
+    internal: true
+    label: 'go-generate-{{.FUNC_DIR}}'
+    dir: '{{.FUNC_DIR}}'
+    cmds:
+      - go generate ./...
+
+  build:
+    desc: Build every function image with ko and package the project
+    deps:
+      - build-functions
+    cmds:
+      - crossplane project build --repository={{.REPOSITORY}}
+
+  build-functions:
+    internal: true
+    cmds:
+      - for: { var: FUNCTIONS }
+        task: build-function
+        vars:
+          FUNC_DIR: '{{.ITEM}}'
+
+  build-function:
+    internal: true
+    label: 'build-function-{{.FUNC_DIR}}'
+    dir: '{{.FUNC_DIR}}'
+    vars:
+      FUNC_NAME:
+        sh: basename {{.FUNC_DIR}}
+    cmds:
+      - mkdir -p {{.ROOT_DIR}}/_output/ko
+      - KO_DOCKER_REPO={{.REPOSITORY}} ko build --push=false --tarball={{.ROOT_DIR}}/_output/ko/{{.FUNC_NAME}}.tar .
+
+  publish:
+    desc: "Push the built project package to the registry (usage: task publish VERSION=v0.1.0)"
+    deps:
+      - build
+    requires:
+      vars: [VERSION]
+    cmds:
+      - crossplane project push --repository={{.REPOSITORY}} --tag={{.VERSION}}
+
+  test:
+    desc: Run go test for every function
+    cmds:
+      - for: { var: FUNCTIONS }
+        task: test-function
+        vars:
+          FUNC_DIR: '{{.ITEM}}'
+
+  test-function:
+    internal: true
+    label: 'test-{{.FUNC_DIR}}'
+    dir: '{{.FUNC_DIR}}'
+    cmds:
+      - go test ./...
+
+  lint:
+    desc: Run golangci-lint for every function
+    cmds:
+      - for: { var: FUNCTIONS }
+        task: lint-function
+        vars:
+          FUNC_DIR: '{{.ITEM}}'
+
+  lint-function:
+    internal: true
+    label: 'lint-{{.FUNC_DIR}}'
+    dir: '{{.FUNC_DIR}}'
+    cmds:
+      - golangci-lint run ./...
+
+  format:
+    desc: Run golangci-lint fmt for every function
+    cmds:
+      - for: { var: FUNCTIONS }
+        task: format-function
+        vars:
+          FUNC_DIR: '{{.ITEM}}'
+
+  format-function:
+    internal: true
+    label: 'format-{{.FUNC_DIR}}'
+    dir: '{{.FUNC_DIR}}'
+    cmds:
+      - golangci-lint fmt ./...
+
+  ci:
+    desc: Run the full pipeline (test + lint run concurrently with build; publish waits on build)
+    deps:
+      - test
+      - lint
+      - publish
