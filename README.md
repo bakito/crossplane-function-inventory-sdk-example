@@ -17,6 +17,8 @@ Install with:
 mise trust .
 # Installs all tools
 mise install
+# Setup mise env
+eval $(mise activate --shims )
 # Configures crossplane specific settings/tools
 task setup
 ```
@@ -32,7 +34,7 @@ task setup
 - `_output/` — build artifacts (`*.xpkg` package, `ko/*.tar` function image tarballs).
 
 Everything under `functions/` and `apis/` is discovered dynamically by the `Taskfile.yml` — add
-a new folder in either and it's automatically picked up by `generate`, `build`, `test`, `lint`,
+a new folder in either, and it's automatically picked up by `generate`, `build`, `test`, `lint`,
 and `format`.
 
 ## Development workflow

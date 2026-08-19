@@ -5,7 +5,7 @@ go 1.26.6
 require (
 	dev.crossplane.io/models v0.0.0
 	github.com/alecthomas/kong v1.16.1
-	github.com/bakito/crossplane-function-inventory-sdk v0.0.1
+	github.com/bakito/crossplane-function-inventory-sdk v1.0.0
 	github.com/crossplane/crossplane-runtime/v2 v2.3.3
 	github.com/crossplane/function-sdk-go v0.7.1
 	github.com/pkg/errors v0.9.1
@@ -53,7 +53,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.3-0.20250322232337-35a7c28c31ee // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/oapi-codegen/runtime v1.1.0 // indirect
-	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_golang v1.23.2 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.67.5 // indirect
@@ -62,7 +61,7 @@ require (
 	github.com/spf13/cobra v1.10.2 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/stoewer/go-strcase v1.3.1 // indirect
-	github.com/stretchr/testify v1.11.1 // indirect
+	github.com/stretchr/testify v1.12.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.28.0 // indirect
