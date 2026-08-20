@@ -18,7 +18,7 @@ mise trust .
 # Installs all tools
 mise install
 # Setup mise env
-eval $(mise activate --shims )
+eval $(mise activate --shims)
 # Configures crossplane specific settings/tools
 task setup
 ```
@@ -47,6 +47,8 @@ All commands are run through `task` (see `task --list-all` for the full list wit
 - **Changed function code?** Run `task test` (go test), `task lint`
   (golangci-lint run), and `task format` (golangci-lint fmt) — each runs
   across every function.
+- **Want to updat the golden files** Run `task test UPDATE=true` to update the golden
+  files of the function test.
 - **Want to build?** Run `task build` to build every function image (via
   `ko`, not pushed) and package the project. Produces
   `_output/ko/<function-name>.tar` per function and
